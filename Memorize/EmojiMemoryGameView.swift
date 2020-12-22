@@ -13,12 +13,11 @@ struct EmojiMemoryGameView: View {
     //Body is called by the system
     var body: some View {
         //Cannot put vars inside view builders like HStack/VStack/ZStack
-        HStack {
-            ForEach(viewModel.cards) { card in
+        Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture(perform: {
                     viewModel.choose(card: card)
                 })
-            }
+                .padding(5)
         }
             .padding()
             .foregroundColor(Color.orange)
@@ -54,7 +53,9 @@ struct CardView: View {
                 
                 Text(card.content)
             } else {
-                RoundedRectangle(cornerRadius: cornerRadius).fill()
+                if !card.isMatched {
+                    RoundedRectangle(cornerRadius: cornerRadius).fill()
+                }
             }
         }
         //This is not setting the view's font, but modifying it
